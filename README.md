@@ -155,12 +155,19 @@ Azure Container Apps · Azure OpenAI · PostgreSQL · Key Vault · Application I
 
 ### 5. Multi-Agent Orchestration Platform
 
-**LangGraph-based workflow automation with persistent human-in-the-loop approvals and tamper-evident audit trails.**
+**LangGraph-based workflow automation with persistent human-in-the-loop approvals, MCP tool exposure, and tamper-evident audit trails.**
 
 ![Dashboard](projects/multi-agent-workflow/dashboard.png)
+*Four live workflows across two types — compliance review and incident triage — with colour-coded status badges.*
+
+![Compliance Review](projects/multi-agent-workflow/review-screen.png)
+*Extracted document fields, per-rule pass/fail/severity badges, LLM risk score, and decision form with Request More Info.*
+
+![Incident Triage](projects/multi-agent-workflow/triage-screen.png)
+*P1 severity badge, incident description, PagerDuty source metadata, classification reasoning, and APPROVE/REJECT form.*
 
 ![Audit Trail](projects/multi-agent-workflow/audit-trail.png)
-*Every agent action, rule evaluation, risk score, and human decision — timestamped, actor-tagged, and immutable.*
+*Every agent action, rule evaluation, risk score, and human decision — timestamped, actor-tagged, immutable, and expandable.*
 
 #### The problem
 Enterprise workflows that cross systems rely on email chains and spreadsheet trackers. There is no persistent state, no guaranteed audit trail, and no operational visibility into where a workflow is, who touched it, or why a decision was made. When something goes wrong, the answer is in someone's inbox.
@@ -171,9 +178,11 @@ Enterprise workflows that cross systems rely on email chains and spreadsheet tra
 |---|---|
 | **Persistent workflow state** | Workflows pause at human decision points and resume exactly where they stopped — across server restarts, deployments, and failures |
 | **Human-in-the-loop as an architectural primitive** | Not a polling loop or a workaround — a genuine interrupt in the LangGraph state machine with typed resume payloads |
-| **Pluggable workflow modules** | Compliance review and procurement workflows included; new workflow types addable without changing the platform |
+| **Pluggable workflow modules** | Compliance review and incident triage included; new workflow types addable without changing the platform |
+| **MCP server** | Exposes workflow operations as tools to Claude Desktop and any MCP-compatible AI agent — start workflows, submit decisions, retrieve audit trails |
 | **Tamper-evident audit trail** | Every agent action and human decision logged with timestamp, actor, and structured payload — append-only |
-| **56 passing tests** | Unit tests per agent node, integration tests per workflow, state transition tests |
+| **Golden eval harness** | Deterministic evaluation dataset (13 cases, 100% pass rate) — correctness verified without a live LLM |
+| **94 passing tests** | Unit tests per agent node, integration tests per workflow, MCP tool tests, observability tests |
 
 #### Azure deployment target
 Azure Container Apps · Azure OpenAI / Anthropic · PostgreSQL (LangGraph checkpoint store) · Key Vault
